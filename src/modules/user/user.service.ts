@@ -24,21 +24,30 @@ export class UserService {
   async listUsers() {
     const usersSaved = await this.userRepository.find();
     const usersList = usersSaved.map(
-      (user) => new ListUsersDTO(user.id, user.name),
+      (user) => new ListUsersDTO(
+        user.id, 
+        user.name,
+        user.email,
+        user.age,
+        user.cpf,
+        user.phone
+      ),
     );
     return usersList;
   }
 
   async findByEmail(email: string) {
-    const checkEmail = await this.userRepository.findOne({
-      where: { email },
-    });
-
-    if (checkEmail === null)
-      throw new NotFoundException("O email não foi encontrado.");
-
-    return checkEmail;
+    const normalizedEmail = email.trim().toLowerCase();
+  
+    const user = await this.userRepository.findOneBy({ email: normalizedEmail });
+  
+    if (!user) {
+      throw new NotFoundException(`Email ${normalizedEmail} não foi encontrado.`);
+    }
+  
+    return user;
   }
+  
 
   async updateUser(id: string, newData: UpdateUserDTO) {
     const user = await this.userRepository.findOneBy({ id });
