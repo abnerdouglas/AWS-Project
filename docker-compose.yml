@@ -11,8 +11,6 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      - postgres
     ports:
       - "8000:8000"
     networks:
