@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run migration:run
+
 RUN npm run build
 
 EXPOSE 8000

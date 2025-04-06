@@ -6,14 +6,12 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
 } from "@nestjs/common";
 import { ListUsersDTO } from "./dto/ListUser.dto";
 import { CreateUserDTO } from "./dto/CreateUser.dto";
 import { UserService } from "./user.service";
 import { UpdateUserDTO } from "./dto/UpdateUser.dto";
 import { HashPasswordPipe } from "src/resources/pipes/hashPassword";
-import { AuthenticationGuard } from "../auth/authentication.guard";
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -21,7 +19,6 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 
-@UseGuards(AuthenticationGuard)
 @Controller("/users")
 @ApiTags("users")
 @ApiBearerAuth()
@@ -33,18 +30,28 @@ export class UserController {
   @ApiResponse({ status: 201, description: "User created sucessfully." })
   async createUser(
    
-    @Body() { name, email }: CreateUserDTO,
+    @Body() { name, email, age, cpf, phone }: CreateUserDTO,
     @Body("password", HashPasswordPipe) hashedPassword: string,
   ) {
     const userCreated = await this.userService.createUser({
       name: name,
-      email : email,
+      email: email,
       password: hashedPassword,
+      age: age,
+      cpf: cpf,
+      phone: phone
     });
 
     return {
       message: "usuário criado com sucesso",
-      user: new ListUsersDTO(userCreated.id, userCreated.name),
+      user: new ListUsersDTO(
+        userCreated.id, 
+        userCreated.name,
+        userCreated.email,
+        userCreated.age,
+        userCreated.cpf,
+        userCreated.phone
+      ),
     };
   }
 

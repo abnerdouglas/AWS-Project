@@ -21,6 +21,15 @@ export class UserEntity {
   @Column({ name: "email", length: 70, nullable: false })
   email: string;
 
+  @Column({ name: "age", length: 2, nullable: false })
+  age: string;
+
+  @Column({ name: "CPF", length: 14, nullable: false })
+  cpf: string;
+
+  @Column({ name: "phone", length: 15, nullable: false })
+  phone: string;
+
   @Exclude()
   @Column({ name: "password", length: 255, nullable: false })
   password: string;
