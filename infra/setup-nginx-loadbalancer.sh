@@ -40,11 +40,15 @@ server {
 }
 EOL
 
-# 4. Testar configuração do NGINX
+## 4. Remova o link simbólico da configuração default
+sudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-available/default
+
+# 5. Testar configuração do NGINX
 echo "🔍 Testando configuração do NGINX..."
 sudo nginx -t
 
-# 5. Reiniciar NGINX
+# 6. Reiniciar NGINX
 echo "🔄 Reiniciando NGINX..."
 sudo systemctl restart nginx
 
