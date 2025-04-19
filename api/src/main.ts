@@ -27,6 +27,7 @@ async function bootstrap() {
     .setVersion("1.0")
     .addTag("users")
     .addServer(`http://${publicIp}:8000`, 'AWS Server')
+    .addServer('http://10.8.0.1', 'Proxy VPN')
     .addBearerAuth()
     .setLicense("MIT License", "https://opensource.org/licenses/MIT")
     .build();
